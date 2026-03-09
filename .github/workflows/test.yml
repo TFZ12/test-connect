@@ -1,46 +1,40 @@
-# 该workflow的名称，可以随意填写
-name: Build And Deploy To Github Pages
+name: Deploy Vue3 to GitHub Pages
 
-# workflow的触发事件，这里代表main分支的push事件触发
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main   # main 分支触发
 
-# 任务
+permissions:
+  contents: write
+
 jobs:
-  # build-and-deploy 为任务的ID
-  build-and-deploy:
-    # 运行所需要的环境
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 步骤名
+      # 1. 拉取代码
       - name: Checkout
-        # 使用的actions脚本，这里是官方提供的获取源码脚本
-        uses: actions/checkout@v2.3.1
-        # 这个为使用 JamesIves/github-pages-deploy-action脚本所需要的配置
+        uses: actions/checkout@v4
+
+      # 2. 安装 Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          persist-credentials: false
+          node-version: 20
+          cache: npm
 
-      # 指定node版本
-      - name: Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: npm install
 
-      # 执行npm脚本打包项目
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
+      # 4. 构建项目
+      - name: Build project
+        run: npm run build
 
-      # 执行JamesIves/github-pages-deploy-action将项目发布到Github Pages
+      # 5. 部署到 gh-pages
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          # 该workflow需要操作repo，因此需要一个密钥
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          # 发布到的分支
-          BRANCH: gh-pages
-          # 要发布的文件夹
-          FOLDER: dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
