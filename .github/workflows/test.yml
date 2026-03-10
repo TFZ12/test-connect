@@ -34,7 +34,7 @@ jobs:
 
       # 4. 构建项目
       - name: Build project
-        run: pnpm run build
+        run: pnpm run build:github
 
       # 5. 部署到 gh-pages
       - name: Deploy
