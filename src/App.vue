@@ -1,23 +1,45 @@
 <script setup lang="ts">
+import Giscus from '@giscus/vue'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="project-container">
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <div class="wrapper">
+        <HelloWorld msg="You did it!" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav>
+      </div>
+    </header>
 
-  <RouterView />
+    <RouterView />
+  </div>
+
+  <div style="width: 100%">
+    <Giscus
+      id="comments"
+      repo="TFZ12/test-connect"
+      repoId="R_kgDORiUyuw"
+      category="Announcements"
+      categoryId="DIC_kwDORiUyu84C4Dlt"
+      mapping="pathname"
+      term="Welcome to @giscus/react component!"
+      reactionsEnabled="1"
+      emitMetadata="0"
+      inputPosition="bottom"
+      theme="preferred_color_scheme"
+      lang="zh-CN"
+      loading="lazy"
+      crossorigin="anonymous"
+    />
+  </div>
 </template>
 
 <style scoped>
